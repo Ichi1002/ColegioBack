@@ -54,9 +54,20 @@ public class CourseService implements ICourseService {
 
     @Override
     public DeleteCourseResponse deleteCourse(DeleteCourseRequest request) {
-        courseRepository.deleteCourse(request);
         DeleteCourseResponse response = new DeleteCourseResponse();
-        response.setStatus(Status.SUCCESS);
+        try{
+            courseRepository.deleteCourse(request);
+            response.setStatus(Status.SUCCESS);
+        }catch (Exception e){
+            Fault fault = new Fault();
+            Fault.Detail detail = new Fault.Detail();
+            detail.setErrorCode(404);
+            detail.setErrorMessage("No se puede borrar el curso.");
+            fault.setFaultstring("soap:Client");
+            fault.setFaultcode("Curso tiene estudaintes asocidos no encontrado");
+            fault.setDetail(detail);
+            response.setFault(fault);
+        }
         return response;
     }
 

@@ -6,7 +6,9 @@ plugins {
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
+java {
+	sourceCompatibility = JavaVersion.VERSION_17
+}
 
 repositories {
 	mavenCentral()
@@ -22,7 +24,7 @@ sourceSets {
 	}
 }
 
-task genJaxb {
+tasks.register('genJaxb') {
 	ext.sourcesDir = "${buildDir}/generated-sources/jaxb"
 	ext.schema = "src/main/resources/student.xsd"
 
@@ -50,10 +52,13 @@ configurations {
 	jaxb
 }
 
-bootJar {
-	archiveBaseName = 'gs-producing-web-service'
-	archiveVersion =  '0.1.0'
+tasks.test {
+	useJUnitPlatform() // Ensures JUnit 5 platform is being used
 }
+//bootJar {
+//	archiveBaseName = 'colegio'
+//	archiveVersion =  '0.0.1'
+//}
 // end::jaxb[]
 
 // tag::dependencies[]
@@ -67,5 +72,6 @@ dependencies {
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
 	runtimeOnly 'org.postgresql:postgresql'
 	implementation("org.springframework.boot:spring-boot-starter-jdbc:3.4.4")
+	testImplementation 'org.junit.jupiter:junit-jupiter:5.9.3'
 }
 // end::dependencies[]

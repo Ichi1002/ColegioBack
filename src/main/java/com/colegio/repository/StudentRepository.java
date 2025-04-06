@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @Service
@@ -77,14 +78,13 @@ public class StudentRepository implements IStudentRepository {
     }
 
     @Override
-    public Student findStudent(long id) {
+    public Student findStudent(long id){
         final String SELECTSQL = "select s.id,s.firstname,s.lastname,s.email,s.country,c.id as courseid,c.coursename from student s " +
                 "left join student_course sc on sc.id_student = s.id " +
                 "left join course c on c.id  = sc.id_course " +
                 "WHERE s.id = :id";
         SqlParameterSource namedParametersGet = new MapSqlParameterSource()
                 .addValue("id", id);
-
         return namedParameterJdbcTemplate
                 .queryForObject(SELECTSQL, namedParametersGet, new AllStudentRowMapper());
     }

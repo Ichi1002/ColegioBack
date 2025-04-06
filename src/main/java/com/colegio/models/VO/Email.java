@@ -22,7 +22,7 @@ public class Email{
     public static Email generateEmail(String firstName, String lastName, String country){
 
         String FORMAT = "%s.%s@%s.%s";
-        String DOMAIN = "FASTTRACK.com";
+        String DOMAIN = "FASTTRACK.COM";
 
         return new Email(String.format(FORMAT,lastName.toUpperCase(),
                 firstName.toUpperCase(), DOMAIN, country));
@@ -30,7 +30,7 @@ public class Email{
     public static Email generateEmail(String firstName, String lastName, String country,int consecutive){
 
         String FORMAT = "%s.%s.%s@%s.%s";
-        String DOMAIN = "FASTTRACK.com";
+        String DOMAIN = "FASTTRACK.COM";
 
         return new Email(String.format(FORMAT,lastName.toUpperCase(),
                 firstName.toUpperCase(), consecutive, DOMAIN,country));

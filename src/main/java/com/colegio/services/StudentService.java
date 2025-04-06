@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 @RequiredArgsConstructor
@@ -85,15 +84,28 @@ public class StudentService implements IStudentService{
 
     @Override
     public GetStudentResponse getStudent(GetStudentRequest request) {
-        Student student = studentRepository.findStudent(request.getId());
         GetStudentResponse response = new GetStudentResponse();
-        response.setId(student.getId());
-        response.setFirstName(student.getFirstName().getName());
-        response.setLastName(student.getLastName().getName());
-        response.setEmail(student.getEmail().getEmail());
-        response.setCountry(student.getCountry());
-        student.getCourseList().forEach(course ->
-                response.getCourse().add(course.convertCourse(course)));
+        try {
+            Student student = studentRepository.findStudent(request.getId());
+            response.setId(student.getId());
+            response.setFirstName(student.getFirstName().getName());
+            response.setLastName(student.getLastName().getName());
+            response.setEmail(student.getEmail().getEmail());
+            response.setCountry(student.getCountry());
+            student.getCourseList().forEach(course ->
+                    response.getCourse().add(course.convertCourse(course)));
+        }catch (Exception e){
+            Fault fault = new Fault();
+            Fault.Detail detail = new Fault.Detail();
+            detail.setErrorCode(404);
+            detail.setErrorMessage("El estudiante con el ID proporcionado no existe.");
+                fault.setFaultstring("soap:Client");
+                fault.setFaultcode("Estudiante no encontrado");
+                fault.setDetail(detail);
+
+            response.setFault(fault);
+        }
+
         return response;
     }
 

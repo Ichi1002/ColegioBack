@@ -1,0 +1,35 @@
+version: '2'
+
+services:
+
+  front:
+    image: 'colegiofront'
+    build:
+      context: .
+    container_name: colegiofront
+    depends_on:
+      - app
+    ports:
+      - 80:80
+  app:
+    image: 'colegio'
+    build:
+      context: .
+    container_name: colegio
+    depends_on:
+      - db
+    environment:
+      - DB_URL=jdbc:postgresql://db:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=compose-postgres
+      - SPRING_DATASOURCE_PASSWORD=compose-postgres
+    ports:
+      - 8080:8080
+
+  db:
+    image: 'postgres:13.1-alpine'
+    container_name: db
+    environment:
+      - POSTGRES_USER=compose-postgres
+      - POSTGRES_PASSWORD=compose-postgres
+    ports:
+      - 5432:5432
