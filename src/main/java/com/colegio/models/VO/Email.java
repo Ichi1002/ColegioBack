@@ -15,7 +15,7 @@ public class Email{
         if(email==null)
             return;
         if(email.length()>100)
-            throw new InvalidLengthException("Invalidad Length, Max lenth is 100");
+            throw new InvalidLengthException("Longitud del campo invalida: Max 100");
         this.email = email;
     }
 

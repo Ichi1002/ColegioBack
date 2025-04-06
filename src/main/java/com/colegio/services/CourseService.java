@@ -64,7 +64,7 @@ public class CourseService implements ICourseService {
             detail.setErrorCode(404);
             detail.setErrorMessage("No se puede borrar el curso.");
             fault.setFaultstring("soap:Client");
-            fault.setFaultcode("Curso tiene estudaintes asocidos no encontrado");
+            fault.setFaultcode("Curso tiene estudiantes asociados");
             fault.setDetail(detail);
             response.setFault(fault);
         }

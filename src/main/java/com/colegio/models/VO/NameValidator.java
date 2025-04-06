@@ -15,9 +15,9 @@ public class NameValidator {
         if(name == null)
             return;
         if (!name.matches(pattern))
-            throw new CharacterNotValidException("Caracteres no validos");
+            throw new CharacterNotValidException("Algunos caracteres no son validos");
         if(name.length()>30)
-            throw new InvalidLengthException("Invalidad Length, Max lenth is 30");
+            throw new InvalidLengthException("Longitud del campo invalida: Max 30");
         this.name = name;
     }
 }
